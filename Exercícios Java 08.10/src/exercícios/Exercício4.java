@@ -1,7 +1,6 @@
 package exercícios;
 
 import java.util.*;
-@SuppressWarnings("unused")
 
 public class Exercício4 {
 	private static Scanner leia;
@@ -18,16 +17,16 @@ public class Exercício4 {
 			genero = leia.nextInt();
 			System.out.println("Qual o comportamento da pessoa?\n 1 - calmo\n 2 - nervoso\n 3 - agressivo");
 			temperamento = leia.nextInt();		
-			
+			if (temperamento == 1 || temperamento == 2 || temperamento == 3 && genero == 1 || genero == 2 || genero == 3) n++;
 			switch (temperamento) {
 				case 1: 
 					pessoaCalma++;
 					if (genero == 3) enbyCalmes++;
-					if (idade <= 18) calmas18++;
+					if (idade < 18) calmas18++;
 					break;
 				case 2:
 					if (genero == 1) mulheresNervosas++;
-					if (idade >=40) nervosas40++;
+					if (idade > 40) nervosas40++;
 					break;
 				case 3:
 					if (genero == 2) homensAgressivos++;
@@ -35,6 +34,7 @@ public class Exercício4 {
 				default:
 					System.out.println("Algo deu errado");
 			}
+			
 		}
 		System.out.println("Pessoas Calmas: " + pessoaCalma);
 		System.out.println("Mulheres Nervosas: " + mulheresNervosas);
