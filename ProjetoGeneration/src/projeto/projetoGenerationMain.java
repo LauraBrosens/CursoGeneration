@@ -22,10 +22,10 @@ public class projetoGenerationMain{
 				{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},
 				{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},
 				{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}}; 
-		String[] nomesProduto = {"Bis","Feij„o","Arroz","AÁ˙car","LenÁol",
+		String[] nomesProduto = {"Bis","Feij√£o","Arroz","A√ß√∫car","Len√ßol",
 				"Banana","Nescau","OMO","Limpol","Bombril",
-				"Bolacha Recheada","RaÁ„o para Gatos","MaÁ„","Negresco","Suco",
-				"Detergente","¡gua Sanit·ria","Sab„o  em pÛ","Negresco","Refri",
+				"Bolacha Recheada","Ra√ß√£o para Gatos","Ma√ß√£","Negresco","Suco",
+				"Detergente","√Ågua Sanit√°ria","Sab√£o  em p√≥","Negresco","Refri",
 				"","","","","",
 				"","","","","",
 				"","","","","",
@@ -37,7 +37,7 @@ public class projetoGenerationMain{
 		
 		do 
 		{			
-			System.out.println("Ol·, selecione opÁ„o desejada!\n"
+			System.out.println("Ol√°, selecione op√ß√£o desejada!\n"
 					+ "1- Gerenciar Estoque;\n"
 					+ "2- Fazer uma nova venda\n"
 					+ "3- Sair");
@@ -50,7 +50,7 @@ public class projetoGenerationMain{
 				senha0 = ler.next();
 				if(Objects.equals(senha, senha0)){											
 					do {
-						System.out.println("Selecione a opÁ„o desejada:"
+						System.out.println("Selecione a op√ß√£o desejada:"
 								+ "\n1- Adicionar item"
 								+ "\n2- Remover item"
 								+ "\n3- Alterar quantidade de item"
@@ -66,16 +66,16 @@ public class projetoGenerationMain{
 							imprimirEstoque(estoque, nomesProduto);
 							break;
 						case 2:
-							System.out.println("Remover Item: \nInsira a posiÁ„o do item a ser removido: ");						
+							System.out.println("Remover Item: \nInsira a posi√ß√£o do item a ser removido: ");						
 							casos = ler.nextInt();
 							removerEstoque(estoque, nomesProduto, casos);
 							imprimirEstoque(estoque, nomesProduto);
 							break;
 						case 3:			
-							System.out.printf("Alterar quantidade do item n∫ ");
+							System.out.printf("Alterar quantidade do item n¬∫ ");
 							casos = ler.nextInt();
 							System.out.printf("\nSomar/subtrair quanto?");
-							estoque[casos-1][2] += ler.nextInt(); // a += b È a mesma coisa que a = a+b 
+							estoque[casos-1][2] += ler.nextInt(); // a += b √© a mesma coisa que a = a+b 
 							if (estoque[casos-1][2] < 0 ) {
 								estoque[casos-1][2] = 0; 
 							}
@@ -110,7 +110,7 @@ public class projetoGenerationMain{
 					ok = true;
 				}
 				else
-					System.out.println("Senha Inv·lida!");
+					System.out.println("Senha Inv√°lida!");
 				break;	
 				//------------------------------------------------------------------------------------------				
 			case 2:				
@@ -131,26 +131,14 @@ public class projetoGenerationMain{
 		while(ok);
 		ler.close();
 	}
-		//----------------------------//------/--/-----------------------------/-------------------------	
-	public static double NovaVenda(int codigo, double qtdeDesejada, double[][] estoque, String[] nomeProduto) {
-	double ValorDaVenda;
-		int i = ConferirDisponibilidade(estoque,qtdeDesejada,codigo);
-		if (i != -1) {
-			ValorDaVenda = estoque[i][1]*qtdeDesejada;
-			estoque[i][2] =estoque[i][2]-qtdeDesejada;
-			return ValorDaVenda;
-		}else {
-			removerEstoque(estoque, nomeProduto, i);
-		}
-		return 0;
-	}	 
+		//----------------------------//------/--/-----------------------------/-------------------------		 
 	@SuppressWarnings("resource")
 	public static double[][] vendaCarrinho(double[][] array, String[] vetor, double[][] carrinho, String[] carrinhoNome) {
 		Scanner ler = new Scanner (System.in);
 		int codigo, quantidade;
 		int x = 0, a, i;
 		do {
-			System.out.println("Inserir cÛd produto:");
+			System.out.println("Inserir c√≥d produto:");
 			codigo = ler.nextInt();
 			System.out.println("Inserir quantidade desejada:");
 			quantidade = ler.nextInt();
@@ -163,10 +151,10 @@ public class projetoGenerationMain{
 				array[i][2] -= quantidade;
 			}
 			else {
-				System.out.println("N„o tem disponibilidade deste produto");
+				System.out.println("N√£o tem disponibilidade deste produto");
 			}
 			do {
-				System.out.println("Deseja adicionar um novo produto?\n 1 - Sim\n 2 - N„o");
+				System.out.println("Deseja adicionar um novo produto?\n 1 - Sim\n 2 - N√£o");
 				a = ler.nextInt();
 				switch (a) {
 				case 1:
@@ -176,7 +164,7 @@ public class projetoGenerationMain{
 					System.out.println("Obrigado pela compra!");
 					break;
 				default:
-					System.out.println("Erro. Insira uma opÁ„o correta.");
+					System.out.println("Erro. Insira uma op√ß√£o correta.");
 				}
 			} while (a != 1 && a != 2);
 		} while (a !=2);
@@ -194,7 +182,7 @@ public class projetoGenerationMain{
 		return -1;
 	}
 	public static void imprimirEstoque(double[][] array, String[] nomes) {
-		System.out.println("CÛdigo\tPreÁo\tQtd\tNome");
+		System.out.println("C√≥digo\tPre√ßo\tQtd\tNome");
 		for(int i=0;i<array.length;i++) {
 			if (array[i][0]==0) {
 				break;
@@ -221,13 +209,13 @@ public class projetoGenerationMain{
 	public static double[][] adicionarEstoque(double[][] array, String[] vetor){
 		int n = estoqueInicializado(array);
 		if (n == array.length) {
-			System.out.println("O estoque est· cheio! N„o posso adicionar um novo item");
+			System.out.println("O estoque est√° cheio! N√£o posso adicionar um novo item");
 			return array;
 		}
 		Scanner leia = new Scanner(System.in);
-		System.out.println("Insira o cÛdigo do novo produto");
+		System.out.println("Insira o c√≥digo do novo produto");
 		array[n][0] = leia.nextDouble();
-		System.out.println("Insira o preÁo do novo produto");
+		System.out.println("Insira o pre√ßo do novo produto");
 		array[n][1] = leia.nextDouble();
 		System.out.println("Insira a quantidade do novo produto");
 		array[n][2] = leia.nextDouble();
@@ -294,7 +282,7 @@ public class projetoGenerationMain{
 		return vetor;
 	}
 	public static void imprimirCarrinho(double[][] carrinho, String[] nomes) {
-		System.out.println("CÛdigo\tPreÁo\tQtd\tNome");
+		System.out.println("C√≥digo\tPre√ßo\tQtd\tNome");
 		double total = 0;
 		for(int i=0;i<carrinho.length;i++) {
 			if (carrinho[i][0]==0) {
@@ -303,10 +291,10 @@ public class projetoGenerationMain{
 			for (int j=0;j<3;j++) { 
 				switch (j) {
 				case 0:
-					System.out.printf("%.0f\t", carrinho[i][0]); //cÛdigo
+					System.out.printf("%.0f\t", carrinho[i][0]); //c√≥digo
 					break;
 				case 1:
-					System.out.printf("%.2f\t", carrinho[i][1]); //preÁo
+					System.out.printf("%.2f\t", carrinho[i][1]); //pre√ßo
 					break;
 				case 2:
 					System.out.printf("%.0f\t", carrinho[i][2]); //quantidade
@@ -318,7 +306,7 @@ public class projetoGenerationMain{
 			System.out.printf("\t\t\t      %.2f\n", carrinho[i][1]*carrinho[i][2]);
 			total = total + carrinho[i][1]*carrinho[i][2]; 
 		}
-		System.out.printf("\nPreÁo total = %.2f", total);
+		System.out.printf("\nPre√ßo total = %.2f", total);
 	}
 }
 
