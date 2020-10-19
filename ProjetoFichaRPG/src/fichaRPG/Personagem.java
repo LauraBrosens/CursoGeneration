@@ -17,57 +17,102 @@ public abstract class Personagem {
 	
 	private String nomePersonagem, nomeJogador, classe;
 	private int nivel, pontosVida;
-	private int[] atributos = new int[6];
+	private int[] habilidades = new int[6];
 	private String[] equipamentos = new String[100];
-	private String[] habilidades = new String[100];
+	private String[] caracteristicas = new String[100];
 	
 	public Personagem(String nomePersonagem, String nomeJogador, String classe, int nivel,
-			int pontosVida, int[] atributos, String[] equipamentos, String[] habilidades) {
+			int pontosVida, int[] habilidades, String[] equipamentos, String[] caracteristicas) {
 		this.nomePersonagem = nomePersonagem;
 		this.nomeJogador = nomeJogador;
 		this.classe = classe;
 		this.nivel = nivel;
 		this.pontosVida = pontosVida;
-		this.atributos = atributos;
-		this.equipamentos = equipamentos;
 		this.habilidades = habilidades;
+		this.equipamentos = equipamentos;
+		this.caracteristicas = caracteristicas;
 	}
 
-	public void definirAtributos() {
+	public void definirHabilidades() {
 		Scanner leia = new Scanner(System.in);
 		int[] distribuicao = {15, 14, 13, 12, 10, 8};
 
 		for (int n = 0; n<6; n++) {
-			System.out.printf("Para definição de atributos, usaremos a distribuição padrão: "
+			System.out.printf("Para definição de habilidades, usaremos a distribuição padrão: "
 					+ "\n\tOs valores restantes são:");
-			for (int i = n; i<6; n++) {
+			for (int i = n; i<6; i++) {
 				System.out.printf("%d ", distribuicao[i]);
 			}
-			System.out.printf("\nAtributos: ");
-			if(getAtributo(0) == 0) System.out.printf("\n1 - Força");
-			if(getAtributo(1) == 0)	System.out.printf("\n2 - Destreza");
-			if(getAtributo(2) == 0) System.out.printf("\n3 - Constituicao");
-			if(getAtributo(3) == 0) System.out.printf("\n4 - Inteligencia");
-			if(getAtributo(4) == 0) System.out.printf("\n5 - Sabedoria");
-			if(getAtributo(5) == 0) System.out.printf("\n6 - Carisma");
-			System.out.printf("\nEscolha qual atributo receberá o valor %d: ", distribuicao[n]);
+			System.out.printf("\nHabilidade: ");
+			if(getHabilidade(0) == 0) System.out.printf("\n1 - Força");
+			if(getHabilidade(1) == 0) System.out.printf("\n2 - Destreza");
+			if(getHabilidade(2) == 0) System.out.printf("\n3 - Constituicao");
+			if(getHabilidade(3) == 0) System.out.printf("\n4 - Inteligencia");
+			if(getHabilidade(4) == 0) System.out.printf("\n5 - Sabedoria");
+			if(getHabilidade(5) == 0) System.out.printf("\n6 - Carisma");
+			System.out.printf("\nEscolha qual habilidade receberá o valor %d: ", distribuicao[n]);
 
-			setAtributo(leia.nextInt(), distribuicao[n]);
+			setHabilidade(leia.nextInt()-1, distribuicao[n]);
 		}
-		leia.close();
 	}
 	
-	public abstract void definirEquipamentos();
-	public abstract void definirHabilidades();
-	
-	public int getAtributo(int n) {
-		return atributos[n];
+	public void incrementarHabilidade(int vezes) {
+		//Incrementa um atributo (força, destreza..) em dois, ou dois atributos em 1.
+		//Não pode passar de 20.
+		int n; //endereço do atributo que queremos
+		Scanner leia = new Scanner(System.in);
+		boolean ok = false;
+		vezes *= 2;
+		//! é uma operação booleana que troca o resultado de "sinal" - true vira false, false vira true
+		while (vezes > 0) {
+			do {
+				System.out.println("Você precisa incrementar mais " + vezes + " vezes as suas habilidades");
+				System.out.printf("\nHabilidades: ");
+				System.out.printf("\n1 - Força: " + this.getHabilidade(0));
+				System.out.printf("\n2 - Destreza: " + this.getHabilidade(1));
+				System.out.printf("\n3 - Constituicao: " + this.getHabilidade(2));
+				System.out.printf("\n4 - Inteligencia: " + this.getHabilidade(3));
+				System.out.printf("\n5 - Sabedoria: " + this.getHabilidade(4));
+				System.out.printf("\n6 - Carisma: " + this.getHabilidade(5));
+				System.out.printf("\nEscolha qual habilidade será aumentada: ");
+				n = leia.nextInt();
+				if (n < 1 || n > 6) {
+					System.out.println("Entrada inválida");
+				}
+				else if (this.getHabilidade(n-1) >= 20) {
+					System.out.println("Entrada inválida");
+				}
+				else {
+					this.setHabilidade(n-1, this.getHabilidade(n-1)+1);
+					ok = true;
+				}
+			} while (!ok);
+			vezes--;
+			ok = false;
+		}
 	}
-	public void setAtributo(int n, int a) {
-		this.atributos[n] = n;
-	}
 	
-	//Getters e Setters
+	public abstract void definirEquipamentos() throws InterruptedException;
+	public abstract void definirCaracteristicas();
+	public int getHabilidade(int n) {
+		return habilidades[n];
+	}
+	public void setHabilidade(int n, int a) {
+		this.habilidades[n] = a;
+	}
+	public void mostrarCaracteristicas() {
+		for(String j : this.getCaracteristicas()) {
+			if (j == null) break;
+			System.out.println(j);
+		}
+	}
+	public void mostrarEquipamentos() {
+		for(String j : this.getEquipamentos()) {
+			if (j == null) break;
+			System.out.println(j);
+		}
+	}
+	//Getters e Setters padrão
 	public String getNomePersonagem() {
 		return nomePersonagem;
 	}
@@ -86,8 +131,8 @@ public abstract class Personagem {
 	public String[] getEquipamentos() {
 		return equipamentos;
 	}
-	public String[] getHabilidades() {
-		return habilidades;
+	public String[] getCaracteristicas() {
+		return caracteristicas;
 	}
 	public void setNomePersonagem(String nomePersonagem) {
 		this.nomePersonagem = nomePersonagem;
@@ -107,7 +152,7 @@ public abstract class Personagem {
 	public void setEquipamentos(String[] equipamentos) {
 		this.equipamentos = equipamentos;
 	}
-	public void setHabilidades(String[] habilidades) {
-		this.habilidades = habilidades;
+	public void setCaracteristicas(String[] caracteristicas) {
+		this.caracteristicas = caracteristicas;
 	}
 }

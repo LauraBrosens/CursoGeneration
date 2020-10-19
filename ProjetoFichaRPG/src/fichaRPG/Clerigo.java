@@ -1,5 +1,6 @@
 package fichaRPG;
 import java.util.*;
+
 public class Clerigo extends Personagem{
 	//Laura
 	private String[] truques = new String[5];
@@ -7,13 +8,13 @@ public class Clerigo extends Personagem{
 	// Conhecimento, Enganação, Guerra, Luz, Natureza, Tempestade ou Vida
 	
 	
-	public Clerigo(String nomePersonagem, String nomeJogador, String classe, int nivel, int pontosVida, int[] atributos,
-			String[] equipamentos, String[] habilidades) {
-		super(nomePersonagem, nomeJogador, classe, nivel, pontosVida, atributos, equipamentos, habilidades);
+	public Clerigo(String nomePersonagem, String nomeJogador, String classe, int nivel, int pontosVida, int[] habilidade,
+			String[] equipamentos, String[] caracteristicas) {
+		super(nomePersonagem, nomeJogador, classe, nivel, pontosVida, habilidade, equipamentos, caracteristicas);
 	}
 	
 	public void definirEquipamentos() {
-		Scanner leia = new Scanner(System.in);
+		Scanner leitor = new Scanner(System.in);
 		String[] equips = this.getEquipamentos();
 		int n, i = 0;
 		//(a) uma maça ou (b) um martelo de guerra
@@ -21,7 +22,7 @@ public class Clerigo extends Personagem{
 				+ "\n 1 - Uma Maça"
 				+ "\n 2 - Um Martelo de Guerra");
 		do { 
-			n = leia.nextInt();
+			n = leitor.nextInt();
 			switch(n) {
 			case 1:
 				equips[i] = "Maça"; i++;
@@ -40,7 +41,7 @@ public class Clerigo extends Personagem{
 				+ "\n 2 - Uma Armadura de Couro"
 				+ "\n 3 - Uma Cota de Malha");
 		do { 
-			n = leia.nextInt();
+			n = leitor.nextInt();
 			switch(n) {
 			case 1:
 				equips[i] = "Brúnea"; i++;
@@ -61,7 +62,7 @@ public class Clerigo extends Personagem{
 				+ "\n 1 - Uma besta leve com 20 virotes"
 				+ "\n 2 - Uma arma simples");
 		do { 
-			n = leia.nextInt();
+			n = leitor.nextInt();
 			switch(n) {
 			case 1:
 				equips[i] = "Besta Leve"; i++;
@@ -80,7 +81,7 @@ public class Clerigo extends Personagem{
 				+ "\n 1 - Pacote de Sacerdote"
 				+ "\n 2 - Pacote de Aventureiro");
 		do { 
-			n = leia.nextInt();
+			n = leitor.nextInt();
 			switch(n) {
 			case 1:
 				equips[i] = "Pacote de Sacerdote"; i++;
@@ -96,23 +97,33 @@ public class Clerigo extends Personagem{
 		//Um escudo e um símbolo sagrado 
 		equips[i] = "Escudo"; i++;
 		equips[i] = "Símbolo Sagrado"; i++;
-		
-		
-		for(String j : equips) {
-			if (j == null) break;
-			System.out.println(j);
-		}
-		leia.close();
 		this.setEquipamentos(equips);
 	}
-
-	public void definirHabilidades() {
+	public void definirPontosVida(int dadoLados) {
+		Scanner leia = new Scanner(System.in);
+		int pontosvida = this.getPontosVida();
+		int nivel = this.getNivel();
+		int constMod = (this.getHabilidade(2) - this.getHabilidade(2)%2)/2 - 5;
+		pontosvida = dadoLados+constMod;
+		switch (leia.nextInt()) {
+		case 1:
+			//Rolagem de dado
+			int dado = (int) Math.random()*dadoLados + 1;
+			pontosvida = pontosvida + (nivel-1) * dado + constMod;
+			break;
+		case 2:
+			//Fixo
+			dadoLados = dadoLados/2 + 1;
+			pontosvida += (nivel-1)*(dadoLados + constMod);
+		}
+	}
+	public void definirCaracteristicas() {
 		Scanner leia = new Scanner(System.in);
 		int nivel = this.getNivel();
-		int dominio, i = 0, aumentoAtributo = 0;
+		int dominio, i = 0, aumentoAtributo = 0, truquesQuantidade, ler;
 		String[] dominioLista = {"Conhecimento", "Enganação", "Guerra", "Luz", "Natureza","Tempestade", "Vida"};
 		String[] truques = new String[100];
-		String[] habils = this.getHabilidades();
+		String[] caracteristicas = this.getCaracteristicas();
 		String[] canalizar = new String[10];
 		String[] aux = new String[100];
 		boolean ok = false;
@@ -129,35 +140,35 @@ public class Clerigo extends Personagem{
 		
 		switch (nivel) {
 		case 20:
-			habils[i] = "20º Nível - Intervenção Divina Aprimorada"; i++;
+			caracteristicas[i] = "20º Nível - Intervenção Divina Aprimorada"; i++;
 		case 19: 
 			aumentoAtributo++;
 		case 18:
-			habils[i] = "18º Nível - Canalizar Divindade - 3 vezes/descanso"; i++;
+			caracteristicas[i] = "18º Nível - Canalizar Divindade - 3 vezes/descanso"; i++;
 		case 17:
 			canalizar[0] = "17º Nível - Destruir Mortos-Vivos até ND 4";
 			//dominio
 			switch (dominio) {
 			case 1:
-				habils[i] = "17º Nível - Visões do Passado"; i++;
+				caracteristicas[i] = "17º Nível - Visões do Passado"; i++;
 				break;
 			case 2:
 				canalizar[1] = "17º Nível - Duplicidade Aprimorada";
 				break;
 			case 3:
-				habils[i] = "17º Nível - Avatar da Batalha"; i++;
+				caracteristicas[i] = "17º Nível - Avatar da Batalha"; i++;
 				break;
 			case 4:
-				habils[i] = "17º Nível - Coroa de Luz"; i++;
+				caracteristicas[i] = "17º Nível - Coroa de Luz"; i++;
 				break;
 			case 5:
-				habils[i] = "17º Nível - Senhor da Natureza"; i++;
+				caracteristicas[i] = "17º Nível - Senhor da Natureza"; i++;
 				break;
 			case 6:
-				habils[i] = "17º Nível - Filho da Tormenta"; i++;
+				caracteristicas[i] = "17º Nível - Filho da Tormenta"; i++;
 				break;
 			case 7:
-				habils[i] = "17º Nível - Cura Suprema"; i++;
+				caracteristicas[i] = "17º Nível - Cura Suprema"; i++;
 				break;
 			}
 		case 16:
@@ -194,7 +205,7 @@ public class Clerigo extends Personagem{
 			}
 		case 10:
 			if (nivel < 20) {
-				habils[i] = "10º Nível - Intervenção Divina";
+				caracteristicas[i] = "10º Nível - Intervenção Divina";
 				i++;
 			}
 		case 9: //nada
@@ -209,7 +220,7 @@ public class Clerigo extends Personagem{
 			//dominio
 			switch (dominio) {
 			case 1:
-				habils[i] = "8º Nível - Conjuração Poderosa"; i++;
+				caracteristicas[i] = "8º Nível - Conjuração Poderosa"; i++;
 				break;
 			case 2:
 				if (nivel < 14) {
@@ -229,7 +240,7 @@ public class Clerigo extends Personagem{
 				}
 				break;
 			case 4:
-				habils[i] = "8º Nível - Conjuração Poderosa"; i++;
+				caracteristicas[i] = "8º Nível - Conjuração Poderosa"; i++;
 				break;
 			case 5:
 				if (nivel < 14) {
@@ -258,7 +269,7 @@ public class Clerigo extends Personagem{
 			}
 		case 7: //nada
 		case 6:
-			if (nivel < 18) {habils[i] = "6º Nível - Canalizar Divindade - 2 vezes/descanso"; i++;}
+			if (nivel < 18) {caracteristicas[i] = "6º Nível - Canalizar Divindade - 2 vezes/descanso"; i++;}
 			//dominio
 			switch (dominio) {
 			case 1:
@@ -271,16 +282,16 @@ public class Clerigo extends Personagem{
 				canalizar[6] = "6º Nível - Bênção do Deus da Guerra";
 				break;
 			case 4:
-				habils[i] = "6º Nível - Labareda Protetora Aprimorada"; i++;
+				caracteristicas[i] = "6º Nível - Labareda Protetora Aprimorada"; i++;
 				break;
 			case 5:
-				habils[i] = "6º Nível - Amortecer Elementos"; i++;
+				caracteristicas[i] = "6º Nível - Amortecer Elementos"; i++;
 				break;
 			case 6:
-				habils[i] = "6º Nível - Golpe do Relâmpago"; i++;
+				caracteristicas[i] = "6º Nível - Golpe do Relâmpago"; i++;
 				break;
 			case 7:
-				habils[i] = "6º Nível - Curandeiro Abençoado"; i++;
+				caracteristicas[i] = "6º Nível - Curandeiro Abençoado"; i++;
 				break;
 			}
 		case 5:
@@ -294,7 +305,7 @@ public class Clerigo extends Personagem{
 			aumentoAtributo++;
 		case 3://nada
 		case 2:
-			if (nivel < 6) {habils[i] = "2º Nível - Canalizar Divindade"; i++;}
+			if (nivel < 6) {caracteristicas[i] = "2º Nível - Canalizar Divindade"; i++;}
 			if (nivel < 5) {
 				canalizar[8] = "2º Nível - Expulsar Mortos-Vivos";
 			}
@@ -331,40 +342,157 @@ public class Clerigo extends Personagem{
 				break;
 			}
 		case 1:
-			habils[i] = "1º Nível - Conjuração"; i++;
+			caracteristicas[i] = "1º Nível - Conjuração"; i++;
 			switch (dominio) {
 			case 2:
-				habils[i] = "1º Nível - Benção do Trapaceiro"; i++;
+				caracteristicas[i] = "1º Nível - Benção do Trapaceiro"; i++;
 				break;
 			case 3:
-				habils[i] = "1º Nível - Sacerdote da Guerra"; i++;
+				caracteristicas[i] = "1º Nível - Sacerdote da Guerra"; i++;
 				break;
 			case 4:
 				//truque - luz
-				if (nivel < 6) habils[i] = "1º Nível - Labareda Protetora"; i++;
+				if (nivel < 6) caracteristicas[i] = "1º Nível - Labareda Protetora"; i++;
 				break;
 			case 5:
 				//truque + 1
 				break;
 			case 6:
-				habils[i] = "1º Nível - Ira da Tormenta"; i++;
+				caracteristicas[i] = "1º Nível - Ira da Tormenta"; i++;
 				break;
 			case 7:
-				habils[i] = "1º Nível - Discípulo da Vida"; i++;
+				caracteristicas[i] = "1º Nível - Discípulo da Vida"; i++;
 				break;
 			}
 		}
 
+		//Função que incrementa a Habilidade do personagem
 		//Gerar o vetor de truques
 		
+		if(nivel < 4) {
+			truquesQuantidade = 3;
+		}
+		else if (nivel < 10) {
+			truquesQuantidade = 4;
+		}
+		else {
+			truquesQuantidade = 5;
+		}
+
+		i = 0;
+		boolean[] truqueEscolhido = {false, false, false, false, false, false, false}; 
+		if (dominio == 4) {
+			System.out.println("Por ser do domínio da Luz, você começa com o truque \"Luz\" já aprendido.");
+			truques[i] = "Luz"; i++;
+			truqueEscolhido[3] = true;
+		}
+		else if (dominio == 5) {
+			System.out.println("Por ser do domínio da Natureza, você pode escolher um truque de Druida além dos "+ truquesQuantidade
+					+ " truques que tem direito. \nEscolha:\n"
+					+ "1 - Bordão Místico\n"
+					+ "2 - Chicote de Espinhos\n"
+					+ "3 - Consertar\n"
+					+ "4 - Criar Chamas\n"
+					+ "5 - Druidismo\n"
+					+ "6 - Orientação\n"
+					+ "7 - Rajada de Veneno");
+			ler = leia.nextInt();
+			switch (ler) {
+			case 1:
+				truques[i] = "Bordão Místico"; i++;
+				break;
+			case 2:
+				truques[i] = "Chicote de Espinhos"; i++;
+				break;
+			case 3:
+				truques[i] = "Consertar"; i++;
+				truqueEscolhido[1] = true;
+				break;
+			case 4:
+				truques[i] = "Criar Chamas"; i++;
+				break;
+			case 5:
+				truques[i] = "Druidismo"; i++;
+				break;
+			case 6:
+				truques[i] = "Orientação"; i++;
+				truqueEscolhido[4] = true;
+				break;
+			case 7:
+				truques[i] = "Rajada de Veneno"; i++;
+				break;
+			}
+		}
+		do {
+			System.out.println(
+					"Agora, escolha um dos " + truquesQuantidade + " truques que tem direito. " + "\nEscolha:");
+			if (!truqueEscolhido[0])
+				System.out.println("1 - Chama Sagrada");
+			if (!truqueEscolhido[1])
+				System.out.println("2 - Consertar");
+			if (!truqueEscolhido[2])
+				System.out.println("3 - Estabilizar");
+			if (!truqueEscolhido[3])
+				System.out.println("4 - Luz");
+			if (!truqueEscolhido[4])
+				System.out.println("5 - Orientação");
+			if (!truqueEscolhido[5])
+				System.out.println("6 - Resistência");
+			if (!truqueEscolhido[6])
+				System.out.println("7 - Taumaturgia");
+			ler = leia.nextInt()-1;
+			if (ler < 0 || ler > 6) {
+				System.out.println("Valor inválido.");
+			}
+			else if (truqueEscolhido[ler]) {
+				System.out.println("Valor inválido.");
+			}
+			else {
+				switch (ler) {
+				case 0:
+					truques[i] = "Chama Sagrada";
+					i++; truquesQuantidade--;
+					truqueEscolhido[0] = true;
+					break;
+				case 1:
+					truques[i] = "Consertar";
+					i++; truquesQuantidade--;
+					truqueEscolhido[1] = true;
+					break;
+				case 2:
+					truques[i] = "Estabilizar";
+					i++; truquesQuantidade--;
+					truqueEscolhido[2] = true;
+					break;
+				case 3:
+					truques[i] = "Luz";
+					i++; truquesQuantidade--;
+					truqueEscolhido[3] = true;
+					break;
+				case 4:
+					truques[i] = "Orientação";
+					i++; truquesQuantidade--;
+					truqueEscolhido[4] = true;
+					break;
+				case 5:
+					truques[i] = "Resistência";
+					i++; truquesQuantidade--;
+					truqueEscolhido[5] = true;
+					break;
+				case 6:
+					truques[i] = "Taumaturgia";
+					i++; truquesQuantidade--;
+					truqueEscolhido[6] = true;
+					break;
+				}
+			}
+		} while (truquesQuantidade > 0);
 		
-		
+		this.incrementarHabilidade(aumentoAtributo);
 		//Esse código converte tudo para o formato que o vetor de String getHabilidades usa
 		
-		this.incrementarAtributo(aumentoAtributo);
-		
 		for (int j = 0, k = 0; j < aux.length; j++) {
-			aux[j] = habils[k];
+			aux[j] = caracteristicas[k];
 			if (aux[j] != null) {
 				if (aux[j].contains("Canalizar Divindade")) {
 					for (int l = 0; l < canalizar.length; l++) {
@@ -378,20 +506,13 @@ public class Clerigo extends Personagem{
 			k++;
 		}
 		
-		this.setHabilidades(aux);
-		this.mostrarHabilidades();
+		this.setCaracteristicas(aux);
 		this.setDominio(dominioLista[dominio-1]);
 		this.setTruques(truques);
-		leia.close();
 	}
-	public void mostrarHabilidades() {
-		for(String j : this.getHabilidades()) {
-			if (j == null) break;
-			System.out.println(j);
-		}
-	}
-	public void mostrarEquipamentos() {
-		for(String j : this.getEquipamentos()) {
+
+	public void mostrarTruques() {
+		for(String j : this.getTruques()) {
 			if (j == null) break;
 			System.out.println(j);
 		}

@@ -1,17 +1,114 @@
 package fichaRPG;
+import java.util.*;
 
 public class Ladino extends Personagem{
 	//Fernanda
 	
-	public Ladino(String nomePersonagem, String nomeJogador, String classe, int nivel, int pontosVida, int[] atributos,
-			String[] equipamentos, String[] habilidades) {
-		super(nomePersonagem, nomeJogador, classe, nivel, pontosVida, atributos, equipamentos, habilidades);
-	}
-	public void definirEquipamentos() {
-		
+	int escolhaDeEquipamento;
+	Scanner leia = new Scanner (System.in);
+	int[] habilidades;
+	
+	public Ladino(String nomePersonagem, String nomeJogador, String classe, int nivel, int pontosVida, int[] habilidades,
+			String[] equipamentos, String[] caracteristicas) {
+		super(nomePersonagem, nomeJogador, classe, nivel, pontosVida, habilidades, equipamentos, caracteristicas);
 	}
 	
-	public void definirHabilidades() {
-		
+
+	@Override
+	public void definirEquipamentos() {
+		System.out.printf("Escolha o primeiro equipamento: \n1 - Rapieira\n2- Espada Longa");
+		escolhaDeEquipamento = leia.nextInt();
+		String[] equipamentos = this.getEquipamentos();
+		if (escolhaDeEquipamento == 1) {
+			equipamentos[0] = "Rapieira";
+		}
+		if (escolhaDeEquipamento == 2)
+			equipamentos[0] = "Espada Longa";
+		else {
+			System.out.printf("Escolha uma alternativa válida.");
+		}
+
+		System.out.printf("Escolha o segundo equipamento: \n1 - Arco Curto + Aljava com 20 flechas \n2- Espada Curta");
+		escolhaDeEquipamento = leia.nextInt();
+
+		if  (escolhaDeEquipamento == 1) {
+			equipamentos[1] = "Arco Curto + Aljava 20 Flechas";
+		}
+		if (escolhaDeEquipamento == 2) {
+			equipamentos[1] = "Espada Curta";
+		}
+		else {
+			System.out.printf("Escolha uma alternativa válida.");
+		}
+
+		System.out.printf("Escolha o terceiro equipamento: \n1 - Pacote de Assaltante\n2- Pacote de Aventureiro\n3- Pacote de Explorador");
+		escolhaDeEquipamento = leia.nextInt();
+
+		if (escolhaDeEquipamento == 1) {
+			equipamentos[2] = "Pacote de Assaltante";
+		}
+		if (escolhaDeEquipamento == 2) {
+			equipamentos[2] = "Pacote de Aventureiro";
+		}
+		if (escolhaDeEquipamento == 3) {
+			equipamentos[2] = "Pacote de Explorador";
+		}
+		else {
+			System.out.printf("Escolha uma alternativa válida.");
+		}
+		equipamentos[3] = "Armadura de couro, duas adagas e ferramentas de ladrão";
+		this.setEquipamentos(equipamentos);
+	}
+	
+	@Override
+	public void definirCaracteristicas() {
+		int nivel = getNivel();
+		int incrementaHab = 0;
+		String[] caracteristicas = this.getCaracteristicas();
+		switch (nivel) {
+		case 20:
+			caracteristicas[19] = "Golpe de Sorte";
+		case 19: 
+			caracteristicas[18] = "Incremento no Valor de Habilidade";incrementaHab++;			
+		case 18:
+			caracteristicas[17] = "Elusivo";
+		case 17:
+			caracteristicas[16] = "Característica de Arquétipo de Ladino";
+		case 16:
+			caracteristicas[15] = "Incremento no Valor de Habilidade";incrementaHab++;
+		case 15:
+			caracteristicas[14] = "Mente Escorregadia";
+		case 14:
+			caracteristicas[13] = "Sentido Cego";
+		case 13:
+			caracteristicas[12] = "Característica de Arquétipo de Ladino";
+		case 12:
+			caracteristicas[11] =  "Incremento no Valor de Habilidade";incrementaHab++;
+		case 11:
+			caracteristicas[10] = "Talento Confiável";
+		case 10:
+			caracteristicas[9] =  "Incremento no Valor de Habilidade";incrementaHab++;
+		case 9:
+			caracteristicas[8] = "Característica de Arquétipo de Ladino";
+		case 8:
+			caracteristicas[7] = "Incremento no Valor de Habilidade";incrementaHab++;
+		case 7:
+			caracteristicas[6] = "Evasão";
+		case 6:
+			caracteristicas[5] = "Especialização";
+		case 5:
+			caracteristicas[4] = "Esquiva Sobrenatural";
+		case 4:
+			caracteristicas[3] = "Incremento no Valor de Habilidade";incrementaHab++;
+		case 3:
+			caracteristicas[2] = "Arquétipo de Ladino";
+		case 2:
+			caracteristicas[1] = "Ação Ardilosa";
+		case 1:
+			caracteristicas[0] = "Especialização, Ataque Furtivo, Gíria de Ladrão";
+		default: System.out.println("Digite uma opção válida");
+		}
+		this.incrementarHabilidade(incrementaHab);
+		this.setCaracteristicas(caracteristicas);
 	}
 }
